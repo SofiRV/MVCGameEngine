@@ -11,7 +11,7 @@ public class PlayerHUD extends DataHUD {
                 Color.GRAY, // Highlight color
                 new Color(255, 255, 255, 150), // Label color
                 new Color(255, 255, 255, 255), // Data color
-                50, 12, 35);
+                35, 12, 15);
 
         this.addItems();
     }
