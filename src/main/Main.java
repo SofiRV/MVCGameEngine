@@ -16,8 +16,8 @@ public class Main {
     public static void main(String[] args) {
 
         System.setProperty("sun.java2d.uiScale", "1.0");
-        int worldWidth = 2450;
-        int worldHeight = 1450;
+        int worldWidth = 1910;
+        int worldHeight = 980;
         int maxDynamicBodies = 5000;
         int maxAsteroidCreationDelay = 3000;
         int minAsteroidSize = 8;
