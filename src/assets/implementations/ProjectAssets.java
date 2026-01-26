@@ -10,7 +10,13 @@ public final class ProjectAssets {
 
 
     public ProjectAssets() {
-        this.catalog = new AssetCatalog("src/resources/images/");
+        this.catalog = new AssetCatalog("src/resources/images/our_images/");
+        this.catalog.register("back_1", "room_scenario.png", AssetType.BACKGROUND, AssetIntensity.HIGH);
+        this.catalog.register("trail_1", "trail-1.png", AssetType.TRAIL, AssetIntensity.HIGH);
+        this.catalog.register("mouse_1", "babero_mouse_flusflus.png", AssetType.MOUSE, AssetIntensity.HIGH);
+        this.catalog.register("cat_1", "orange_cat.png", AssetType.CAT, AssetIntensity.HIGH);
+        
+        /* 
         this.catalog.register("cosmic_portal_1", "cosmic-portal-1.png", AssetType.COSMIC_PORTAL, AssetIntensity.HIGH);
         this.catalog.register("cracks_1", "cracks-1.png", AssetType.CRACKS, AssetIntensity.HIGH);
         this.catalog.register("cracks_2", "cracks-2.png", AssetType.CRACKS, AssetIntensity.HIGH);
@@ -117,5 +123,6 @@ public final class ProjectAssets {
         this.catalog.register("misil_3", "misil-3-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_4", "misil-4.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_5", "misil-5-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+    */
     }
 }
