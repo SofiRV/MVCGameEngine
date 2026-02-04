@@ -1,13 +1,13 @@
 package engine.view.core;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -17,6 +17,7 @@ import engine.controller.impl.Controller;
 import engine.controller.ports.EngineState;
 import engine.utils.helpers.DoubleVector;
 import engine.utils.images.Images;
+import engine.view.renderables.impl.Renderable;
 import engine.view.renderables.ports.DynamicRenderDTO;
 import engine.view.renderables.ports.PlayerRenderDTO;
 import engine.view.renderables.ports.RenderDTO;
@@ -338,8 +339,48 @@ public class View extends JFrame implements KeyListener {
             case KeyEvent.VK_X:
                 this.controller.playerReverseThrust(this.localPlayerId);
                 break;
+            case KeyEvent.VK_D:
+            // Obtener datos de estado del jugador (vida, energía, armas)
+            PlayerRenderDTO playerStatus = this.controller.getPlayerRenderData(this.localPlayerId);
+            
+            // Obtener datos dinámicos (posición, tamaño, velocidad)
+            Renderable playerRenderable = this.renderer.getLocalPlayerRenderable();
+            
+            System.out.println("🐱 ==================== PLAYER DEBUG ====================");
+            
+            if (playerStatus != null) {
+                System.out.println("📊 STATUS:");
+                System.out.println("   Entity ID: " + playerStatus.entityId);
+                System.out.println("   Damage: " + playerStatus.damage);
+                System.out.println("   Energy: " + playerStatus.energy);
+                System.out.println("   Shield: " + playerStatus.shield);
+            }
+            
+            if (playerRenderable != null) {
+                RenderDTO renderData = playerRenderable.getRenderableValues();
+                if (renderData != null) {
+                    System.out.println("📐 TRANSFORM:");
+                    System.out.println("   Size: " + renderData.size + " px");
+                    System.out.println("   Position: (" + renderData.posX + ", " + renderData.posY + ")");
+                    System.out.println("   Angle: " + renderData.angle + "°");
+                }
+                
+                // Si es DynamicRenderDTO, también tiene velocidad
+                if (renderData instanceof DynamicRenderDTO) {
+                    DynamicRenderDTO dynData = (DynamicRenderDTO) renderData;
+                    double speed = Math.hypot(dynData.speedX, dynData.speedY);
+                    System.out.println("🏃 PHYSICS:");
+                    System.out.println("   Speed: " + String.format("%.2f", speed) + " px/s");
+                    System.out.println("   Velocity: (" + 
+                                      String.format("%.2f", dynData.speedX) + ", " + 
+                                      String.format("%.2f", dynData.speedY) + ")");
+                }
+            }
+            
+            System.out.println("🐱 ======================================================");
+            break;
 
-            case KeyEvent.VK_LEFT:
+            /*case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 this.controller.playerRotateLeftOn(this.localPlayerId);
                 break;
@@ -347,7 +388,7 @@ public class View extends JFrame implements KeyListener {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 this.controller.playerRotateRightOn(this.localPlayerId);
-                break;
+                break;*/
 
             case KeyEvent.VK_SPACE:
                 if (!this.fireKeyDown) { // Discard autoreptition PRESS

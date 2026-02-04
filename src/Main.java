@@ -1,6 +1,5 @@
 
 
-import ai.*;
 import assets.impl.ProjectAssets;
 import engine.controller.impl.Controller;
 import engine.controller.ports.ActionsGenerator;
@@ -9,7 +8,6 @@ import engine.utils.helpers.DoubleVector;
 import engine.view.core.View;
 import engine.worlddef.ports.WorldDefinition;
 import engine.worlddef.ports.WorldDefinitionProvider;
-import level.*;
 
 public class Main {
 
@@ -17,14 +15,14 @@ public class Main {
 
 		System.setProperty("sun.java2d.uiScale", "1.0");
 
-		DoubleVector worldDimension = new DoubleVector(40000, 40000);
-		DoubleVector viewDimension = new DoubleVector(2400, 1500);
+		DoubleVector worldDimension = new DoubleVector(1355, 695);
+		DoubleVector viewDimension = new DoubleVector(1355, 695);
 		int maxBodies = 800;
-		int maxAsteroidCreationDelay = 100;
+		//int maxAsteroidCreationDelay = 100;
 
 		ProjectAssets projectAssets = new ProjectAssets();
 		ActionsGenerator gameRules = new rules.DeadInLimitsPlayerImmunity();
-		WorldDefinitionProvider worldProv = new world.RandomWorldDefinitionProvider(
+		WorldDefinitionProvider worldProv = new world.CatRandomWorldDefinitionProvider(
 				worldDimension, projectAssets);
 
 		// *** CORE ENGINE ***
@@ -52,7 +50,7 @@ public class Main {
 		// endregion
 
 		// region AI generator (AI***)
-		new ai.AIBasicSpawner(controller, worldDef, maxAsteroidCreationDelay).activate();
+		//new ai.AIBasicSpawner(controller, worldDef, maxAsteroidCreationDelay).activate();
 		// endregion
 
 	}

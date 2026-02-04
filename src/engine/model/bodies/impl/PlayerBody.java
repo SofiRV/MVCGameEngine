@@ -15,12 +15,15 @@ import engine.utils.spatial.core.SpatialGrid;
 public class PlayerBody extends DynamicBody {
 
     private final List<Weapon> weapons = new java.util.ArrayList<>(4);
-    private int currentWeaponIndex = -1; // -1 = sin arma
+    private int currentWeaponIndex = -1;
     private double damage = 0D;
     private double energye = 1D;
     private int temperature = 1;
     private double shield = 1D;
     private int score = 0;
+    
+    // 🎯 PROTECCIÓN CONTRA EL BUG DE COLISIONES
+    private double fixedSize = -1;  // Se inicializa en activate()
 
     public PlayerBody(BodyEventProcessor bodyEventProcessor,
             SpatialGrid spatialGrid,
@@ -35,14 +38,54 @@ public class PlayerBody extends DynamicBody {
 
         this.setMaxThrustForce(800);
         this.setMaxAngularAcceleration(1000);
-        this.setAngularSpeed(30);
+        this.setAngularSpeed(0);
     }
+    
+    // 🎯 INICIALIZAR EL TAMAÑO FIJO CUANDO EL JUGADOR SE ACTIVA
+    @Override
+    public synchronized void activate() {
+        super.activate();
+        
+        // Ahora sí podemos obtener el tamaño correcto
+        PhysicsValuesDTO values = super.getPhysicsValues();
+        if (values != null && values.size > 0) {
+            this.fixedSize = values.size;
+            System.out.println("🐱 Player activated with FIXED size: " + this.fixedSize + " px");
+        }
+    }
+    
+    // 🎯 SOBREESCRIBIR getPhysicsValues PARA FORZAR TAMAÑO CONSTANTE
+    @Override
+    public PhysicsValuesDTO getPhysicsValues() {
+        PhysicsValuesDTO values = super.getPhysicsValues();
+        
+        // Solo aplicar la corrección si ya tenemos el tamaño fijo inicializado
+        if (this.fixedSize > 0 && Math.abs(values.size - this.fixedSize) > 1.0) {
+            System.out.println("⚠️ BUG DETECTED! Player size was " + values.size + 
+                             ", forcing back to " + this.fixedSize);
+            
+            // Crear nuevos valores físicos con el tamaño correcto
+            return new PhysicsValuesDTO(
+                values.timeStamp,
+                values.posX, values.posY, values.angle,
+                this.fixedSize,  // 🎯 TAMAÑO FIJO E INMUTABLE
+                values.speedX, values.speedY,
+                values.accX, values.accY,
+                values.angularSpeed,
+                values.angularAcc,
+                values.thrust
+            );
+        }
+        
+        return values;
+    }
+
+    // ========== RESTO DEL CÓDIGO EXISTENTE (NO CAMBIAR) ==========
 
     public void addWeapon(Weapon weapon) {
         this.weapons.add(weapon);
 
         if (this.currentWeaponIndex < 0) {
-            // Signaling existence of weapon in the spaceship
             this.currentWeaponIndex = 0;
         }
     }
@@ -151,7 +194,6 @@ public class PlayerBody extends DynamicBody {
 
         Weapon weapon = this.weapons.get(this.currentWeaponIndex);
         if (weapon == null) {
-            // There is no weapon in this slot
             return;
         }
 
@@ -163,27 +205,15 @@ public class PlayerBody extends DynamicBody {
     }
 
     public void rotateLeftOn() {
-        PhysicsValuesDTO phyValues = this.getPhysicsValues();
-
-        if (phyValues.angularSpeed == 0) {
-            this.setAngularSpeed(-this.getAngularSpeed());
-        }
-
-        this.accelerationAngularInc(-this.getMaxAngularAcceleration());
+        // Rotación desactivada
     }
 
     public void rotateRightOn() {
-        PhysicsValuesDTO phyValues = this.getPhysicsValues();
-        if (phyValues.angularSpeed == 0) {
-            this.setAngularSpeed(this.getAngularSpeed());
-        }
-
-        this.accelerationAngularInc(this.getMaxAngularAcceleration());
+        // Rotación desactivada
     }
 
     public void rotateOff() {
-        this.setAngularAcceleration(0.0d);
-        this.setAngularSpeed(0.0d);
+        // Rotación desactivada
     }
 
     public void setDamage(double damage) {

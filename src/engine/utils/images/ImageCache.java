@@ -1,9 +1,9 @@
 package engine.utils.images;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -90,25 +90,64 @@ public class ImageCache {
             return null; // =================================================>
         }
 
+        // Obtener la imagen base
+        ImageDTO imageDto = this.baseImages.getImage(assetId);
+
+        // 🎯 CASO 1: No hay imagen - Fallback círculo rojo
+        if (imageDto == null) {
+            BufferedImage image = gc.createCompatibleImage(size, size, Transparency.TRANSLUCENT);
+            Graphics2D g2 = image.createGraphics();
+            try {
+                g2.setColor(Color.RED);
+                g2.fillOval(0, 0, size, size);
+            } finally {
+                g2.dispose();
+            }
+            return image;
+        }
+
+        // 🎯 CASO 2: Hay imagen - Escalar manteniendo proporción
+        int originalWidth = imageDto.image.getWidth();
+        int originalHeight = imageDto.image.getHeight();
+
+        // Calcular dimensiones escaladas manteniendo aspect ratio
+        int scaledWidth, scaledHeight;
+        double aspectRatio = (double) originalWidth / originalHeight;
+
+        if (originalWidth >= originalHeight) {
+            // Imagen horizontal o cuadrada: el ancho define el tamaño
+            scaledWidth = size;
+            scaledHeight = (int) (size / aspectRatio);
+        } else {
+            // Imagen vertical: la altura define el tamaño
+            scaledHeight = size;
+            scaledWidth = (int) (size * aspectRatio);
+        }
+
+        // Crear imagen cuadrada transparente (canvas)
         BufferedImage image = gc.createCompatibleImage(size, size, Transparency.TRANSLUCENT);
         Graphics2D g2 = image.createGraphics();
 
-        // Poner aquí la imagen que toca
-        ImageDTO imageDto = this.baseImages.getImage(assetId);
-
         try {
-            if (imageDto != null) {
-                // g2.setComposite(AlphaComposite.getInstance(
-                //         AlphaComposite.SRC_OVER, 0.4f));
+            // Activar antialiasing para mejor calidad
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
+                               RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, 
+                               RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                               RenderingHints.VALUE_ANTIALIAS_ON);
 
-                g2.drawImage(imageDto.image, 0, 0, size, size, null);
-            } else {
-                g2.setColor(Color.RED);
-                g2.fillOval(0, 0, size, size); // se dibuja UNA vez
-            }
+            // Centrar la imagen escalada dentro del cuadrado
+            int x = (size - scaledWidth) / 2;
+            int y = (size - scaledHeight) / 2;
+
+            // Dibujar imagen escalada y centrada
+            g2.drawImage(imageDto.image, x, y, scaledWidth, scaledHeight, null);
+
         } finally {
             g2.dispose();
         }
+
         return image;
     }
 }

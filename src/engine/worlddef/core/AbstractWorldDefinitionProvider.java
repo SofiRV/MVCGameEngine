@@ -20,7 +20,7 @@ import engine.worlddef.ports.WorldDefinitionProvider;
 public abstract class AbstractWorldDefinitionProvider implements WorldDefinitionProvider {
 
     // region Constants
-    private static final String ASSET_PATH = "src/resources/images/";
+    private static final String ASSET_PATH = "src/resources/images/our_images/";
     private static final double WORLD_MIN = 0.0;
     private static final double ANY_HEADING_MIN_DEG = 0.0;
     private static final double ANY_HEADING_MAX_DEG = 359.999;
