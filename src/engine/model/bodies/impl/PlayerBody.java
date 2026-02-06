@@ -39,7 +39,7 @@ public class PlayerBody extends DynamicBody {
 
         this.setMaxThrustForce(800);
         this.setMaxAngularAcceleration(1000);
-        this.setAngularSpeed(30);
+        this.setAngularSpeed(0);
     }
 
     public void addWeapon(String emitterId) {

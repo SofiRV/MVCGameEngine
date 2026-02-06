@@ -12,6 +12,9 @@ public final class ProjectAssets {
         this.catalog = new AssetCatalog("src/resources/images/our_images/");
 
         this.catalog.register("room_01","room_scenario.png", AssetType.BACKGROUND, AssetIntensity.LOW);
+        this.catalog.register("cat_01", "base_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_02", "orange_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+
 
         // region asteroids (asteroid-***)
         /*this.catalog.register("asteroid_01", "asteroid-01-mini.png", AssetType.ASTEROID, AssetIntensity.HIGH);
@@ -234,7 +237,7 @@ public final class ProjectAssets {
         // endregion
 
         // region ui signs (ui-signs-***)
-        this.catalog.register("signs_01", "ui-signs-1.png", AssetType.UI_SIGN, AssetIntensity.HIGH);
+        //this.catalog.register("signs_01", "ui-signs-1.png", AssetType.UI_SIGN, AssetIntensity.HIGH);
         // endregion
 
     }
