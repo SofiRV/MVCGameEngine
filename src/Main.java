@@ -17,10 +17,10 @@ public class Main {
 		System.setProperty("sun.java2d.opengl", "true");
 		System.setProperty("sun.java2d.d3d", "false"); //  OpenGL
 
-		DoubleVector worldDimension = new DoubleVector(40000, 40000);
-		DoubleVector viewDimension = new DoubleVector(2400, 1500);
+		DoubleVector worldDimension = new DoubleVector(1355, 695);
+		DoubleVector viewDimension = new DoubleVector(1355, 695);
 		int maxBodies = 1000;
-		int maxAsteroidCreationDelay = 5;
+		//int maxAsteroidCreationDelay = 5;
 
 		ProjectAssets projectAssets = new ProjectAssets();
 
