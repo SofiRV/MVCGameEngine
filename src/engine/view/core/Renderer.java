@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
@@ -20,16 +21,12 @@ import engine.utils.helpers.DoubleVector;
 import engine.utils.images.ImageCache;
 import engine.utils.images.Images;
 import engine.view.hud.impl.PlayerHUD;
-import engine.view.hud.impl.SpatialGridHUD;
 import engine.view.hud.impl.SystemHUD;
 import engine.view.renderables.impl.DynamicRenderable;
 import engine.view.renderables.impl.Renderable;
 import engine.view.renderables.ports.DynamicRenderDTO;
 import engine.view.renderables.ports.PlayerRenderDTO;
 import engine.view.renderables.ports.RenderDTO;
-import engine.view.renderables.ports.SpatialGridStatisticsRenderDTO;
-
-import java.awt.Toolkit;
 
 /**
  * Renderer
@@ -164,7 +161,7 @@ public class Renderer extends Canvas implements Runnable {
     private VolatileImage viBackground;
     private final PlayerHUD playerHUD = new PlayerHUD();
     private final SystemHUD systemHUD = new SystemHUD();
-    private final SpatialGridHUD spatialGridHUD = new SpatialGridHUD();
+    //private final SpatialGridHUD spatialGridHUD = new SpatialGridHUD();
 
     private double cameraX = 0.0d;
     private double cameraY = 0.0d;
@@ -335,10 +332,10 @@ public class Renderer extends Canvas implements Runnable {
             this.playerHUD.draw(g, playerData.toObjectArray());
         }
 
-        SpatialGridStatisticsRenderDTO spatialGridStats = this.view.getSpatialGridStatistics();
+        /*SpatialGridStatisticsRenderDTO spatialGridStats = this.view.getSpatialGridStatistics();
         if (spatialGridStats != null) {
             this.spatialGridHUD.draw(g, spatialGridStats.toObjectArray());
-        }
+        }*/
     }
 
     private void drawStaticRenderables(Graphics2D g) {

@@ -7,11 +7,11 @@ import engine.view.hud.core.DataHUD;
 public class SpatialGridHUD extends DataHUD  {
     public SpatialGridHUD() {
         super(
-                new Color(255, 140, 0, 255 ), // Title color
+                new Color(78, 4, 135, 255 ), // Title color
                 Color.GRAY, // Highlight color
-                new Color(255, 255, 255, 150), // Label color
-                new Color(255, 255, 255, 255), // Data color
-                1200, 12, 35);
+                new Color(13, 13, 13, 150), // Label color
+                new Color(13, 13, 13, 255), // Data color
+                590, 12, 16);
 
         this.addItems();
     }

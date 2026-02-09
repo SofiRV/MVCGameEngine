@@ -39,7 +39,7 @@ public class PlayerBody extends DynamicBody {
 
         this.setMaxThrustForce(800);
         this.setMaxAngularAcceleration(1000);
-        this.setAngularSpeed(0);
+        this.setAngularSpeed(0);  // ✅ Sin rotación automática
     }
 
     public void addWeapon(String emitterId) {
@@ -57,9 +57,7 @@ public class PlayerBody extends DynamicBody {
             return null;
         }
 
-        // return this.weapons.get(this.currentWeaponIndex);
         return this.getEmitter(this.weaponIds.get(this.currentWeaponIndex));
-
     }
 
     public int getActiveWeaponIndex() {
@@ -72,7 +70,6 @@ public class PlayerBody extends DynamicBody {
 
     public EmitterConfigDto getActiveWeaponConfig() {
         BasicEmitter emitter = getActiveWeapon();
-
         return (emitter != null) ? emitter.getConfig() : null;
     }
 
@@ -160,7 +157,6 @@ public class PlayerBody extends DynamicBody {
 
         BasicEmitter emitter = this.getEmitter(this.weaponIds.get(this.currentWeaponIndex));
         if (emitter == null) {
-            // There is no weapon in this slot
             return;
         }
 
@@ -171,28 +167,17 @@ public class PlayerBody extends DynamicBody {
         this.thurstNow(-this.getMaxThrustForce());
     }
 
+    // 🎯 ROTACIÓN DESACTIVADA PARA JUEGO DE GATOS
     public void rotateLeftOn() {
-        PhysicsValuesDTO phyValues = this.getPhysicsValues();
-
-        if (phyValues.angularSpeed == 0) {
-            this.setAngularSpeed(-this.getAngularSpeed());
-        }
-
-        this.accelerationAngularInc(-this.getMaxAngularAcceleration());
+        // Vacío - El gato no rota
     }
 
     public void rotateRightOn() {
-        PhysicsValuesDTO phyValues = this.getPhysicsValues();
-        if (phyValues.angularSpeed == 0) {
-            this.setAngularSpeed(this.getAngularSpeed());
-        }
-
-        this.accelerationAngularInc(this.getMaxAngularAcceleration());
+        // Vacío - El gato no rota
     }
 
     public void rotateOff() {
-        this.setAngularAcceleration(0.0d);
-        this.setAngularSpeed(0.0d);
+        // Vacío - El gato no rota
     }
 
     public void setDamage(double damage) {

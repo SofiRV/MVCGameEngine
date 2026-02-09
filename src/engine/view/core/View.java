@@ -22,7 +22,7 @@ import engine.controller.impl.Controller;
 import engine.controller.ports.EngineState;
 import engine.utils.helpers.DoubleVector;
 import engine.utils.images.Images;
-import engine.utils.spatial.core.SpatialGrid;
+import engine.view.renderables.impl.Renderable;
 import engine.view.renderables.ports.DynamicRenderDTO;
 import engine.view.renderables.ports.PlayerRenderDTO;
 import engine.view.renderables.ports.RenderDTO;
@@ -547,6 +547,11 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
             case KeyEvent.VK_1:
                 this.controller.playerSelectNextWeapon(this.localPlayerId);
                 break;
+
+            // 🎯 DEBUG: Presiona 'I' para ver info del jugador
+            case KeyEvent.VK_I:
+                debugPlayerInfo();
+                break;
         }
     }
 
@@ -581,6 +586,69 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
                 break;
         }
     }
+
+    // 🎯 MÉTODO DE DEBUG
+    /**
+ * Muestra información de debug del jugador en consola.
+ * Presiona 'I' durante el juego para ver el estado actual del gato.
+ */
+private void debugPlayerInfo() {
+    if (this.localPlayerId == null) {
+        System.out.println("🐱 No local player set");
+        return;
+    }
+
+    // Obtener datos de estado del jugador (vida, energía, armas)
+    PlayerRenderDTO playerStatus = this.controller.getPlayerRenderData(this.localPlayerId);
+
+    System.out.println("🐱 ==================== PLAYER DEBUG ====================");
+
+    // Mostrar estado del jugador
+    if (playerStatus != null) {
+        System.out.println("📊 STATUS:");
+        System.out.println("   Entity ID: " + playerStatus.entityId);
+        System.out.println("   Damage: " + String.format("%.1f%%", playerStatus.damage * 100));
+        System.out.println("   Energy: " + String.format("%.1f%%", playerStatus.energy * 100));
+        System.out.println("   Shield: " + String.format("%.1f%%", playerStatus.shield * 100));
+        System.out.println("   Active Weapon: " + playerStatus.activeWeapon);
+    } else {
+        System.out.println("📊 STATUS: No player data available");
+    }
+
+    // Obtener datos físicos del jugador (posición, tamaño, velocidad)
+    ArrayList<DynamicRenderDTO> allDynamics = this.controller.snapshotRenderData();
+    
+    if (allDynamics != null) {
+        boolean found = false;
+        for (DynamicRenderDTO dynData : allDynamics) {
+            if (dynData.entityId.equals(this.localPlayerId)) {
+                found = true;
+                System.out.println("📐 TRANSFORM:");
+                System.out.println("   Size: " + dynData.size + " px");
+                System.out.println("   Position: (" +
+                        String.format("%.1f", dynData.posX) + ", " +
+                        String.format("%.1f", dynData.posY) + ")");
+                System.out.println("   Angle: " + String.format("%.1f", dynData.angle) + "°");
+                
+                double speed = Math.hypot(dynData.speedX, dynData.speedY);
+                System.out.println("🏃 PHYSICS:");
+                System.out.println("   Speed: " + String.format("%.2f", speed) + " px/s");
+                System.out.println("   Velocity: (" +
+                        String.format("%.2f", dynData.speedX) + ", " +
+                        String.format("%.2f", dynData.speedY) + ")");
+                break;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("📐 TRANSFORM: Player not found in dynamics list");
+        }
+    } else {
+        System.out.println("📐 TRANSFORM: No dynamics data available");
+    }
+
+    System.out.println("🐱 ======================================================");
+}
     // endregion
 
 }

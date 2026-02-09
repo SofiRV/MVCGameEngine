@@ -9,11 +9,33 @@ public final class ProjectAssets {
     public final AssetCatalog catalog;
 
     public ProjectAssets() {
-        this.catalog = new AssetCatalog("src/resources/images/our_images/");
+        String path = "src/resources/images/our_images/";
+        
+        this.catalog = new AssetCatalog(path);
 
-        this.catalog.register("room_01","room_scenario.png", AssetType.BACKGROUND, AssetIntensity.LOW);
+        //Backgrounds
+        this.catalog.register("room_01", "room_scenario_redimension.png", AssetType.BACKGROUND, AssetIntensity.LOW);
+        
+        //Cats
         this.catalog.register("cat_01", "base_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
         this.catalog.register("cat_02", "orange_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+
+        //Bullets
+        this.catalog.register("bullet_01", "bullet-01.png", AssetType.BULLET, AssetIntensity.LOW);
+
+        //Bombs
+        this.catalog.register("bomb_01", "grenade-01.png", AssetType.MINE, AssetIntensity.MEDIUM);
+        this.catalog.register("bomb_02", "grenade-02.png", AssetType.MINE, AssetIntensity.MEDIUM);
+
+        //Missiles
+        this.catalog.register("misil_01", "misil-01-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+        this.catalog.register("misil_02", "misil-02-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+        this.catalog.register("misil_03", "misil-03-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+        this.catalog.register("misil_04", "misil-04.png", AssetType.MISSILE, AssetIntensity.HIGH);
+        this.catalog.register("misil_05", "misil-05-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+
+        //Planets
+        this.catalog.register("bed_01", "bed.png", AssetType.PLANET, AssetIntensity.HIGH);
 
 
         // region asteroids (asteroid-***)
@@ -68,12 +90,12 @@ public final class ProjectAssets {
         // endregion
 
         // region bullets (bullet-***)
-        this.catalog.register("bullet_01", "bullet-01.png", AssetType.BULLET, AssetIntensity.LOW);
+        //this.catalog.register("bullet_01", "bullet-01.png", AssetType.BULLET, AssetIntensity.LOW);
         // endregion
 
         // region bombs (bomb-***)
-        this.catalog.register("bomb_01", "grenade-01.png", AssetType.MINE, AssetIntensity.MEDIUM);
-        this.catalog.register("bomb_02", "grenade-02.png", AssetType.MINE, AssetIntensity.MEDIUM);
+        /*this.catalog.register("bomb_01", "grenade-01.png", AssetType.MINE, AssetIntensity.MEDIUM);
+        this.catalog.register("bomb_02", "grenade-02.png", AssetType.MINE, AssetIntensity.MEDIUM);*/
         // endregion
 
         // region cosmic portals (cosmic-portal-***)
@@ -126,12 +148,12 @@ public final class ProjectAssets {
         // endregion
 
         // region missiles (misil-***)
-        this.catalog.register("misil_01", "misil-01-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
+        /*this.catalog.register("misil_01", "misil-01-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_02", "misil-02-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_03", "misil-03-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_04", "misil-04.png", AssetType.MISSILE, AssetIntensity.HIGH);
         this.catalog.register("misil_05", "misil-05-mini.png", AssetType.MISSILE, AssetIntensity.HIGH);
-        // endregion
+        // endregion*/
 
         // region meteors (meteor-***)
         /*this.catalog.register("meteor_01", "meteor-01.png", AssetType.METEOR, AssetIntensity.HIGH);

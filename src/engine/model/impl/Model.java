@@ -684,6 +684,7 @@ public class Model implements BodyEventProcessor {
             }
 
             final PhysicsValuesDTO otherPhyValues = otherBody.getPhysicsValues();
+            ññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññ
             if (!intersectCircles(newPhyValues, otherPhyValues))
                 continue;
 
