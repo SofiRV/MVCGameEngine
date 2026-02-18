@@ -19,16 +19,46 @@ protected void define() {
     this.setBackgroundStatic("room_01");
 
     // 🐱 Gato jugador
-    this.addSpaceship("cat_02", 700, 300, 400, 0, 500);
+    this.addSpaceship("cat_02", 700, 500, 150, 0, 500);
 
-    // 🛏️ Cama PEGADA al borde inferior izquierdo
-int bedSize = 1170;
-int marginLeft = bedSize / 2;      // 200 (para centrar horizontalmente desde el borde)
-
-double bedX = marginLeft;                      // 200 (pegada a la izquierda)
-double bedY = this.worldHeight - 79; // 695 - 200 = 495
-
-this.addGravityBody("bed_01", bedX, bedY, bedSize, 0, 10000);
+    // 🛏️ CAMA - Sistema Completo: Colliders Horizontales + Colliders Verticales
+    double bedHeight = 155.0;      // Alto de la cama
+    double bedWidthPx = 1172.0;    // Ancho de la cama
+    double bedCenterX = bedWidthPx / 2.0;
+    
+    // ✅ CAMBIO: Añadir offset para mover las cajas más abajo
+    double offsetDown = -23.0;  // ← Ajusta este valor (más grande = más abajo)
+    double bedY = this.worldHeight - (bedHeight / 2.0) - offsetDown;
+    
+    // 2️⃣ COLLIDERS HORIZONTALES (parte de arriba de la cama - donde duerme el gato)
+    int numHorizontalSections = 6;
+    double sectionWidth = bedWidthPx / numHorizontalSections;
+    
+    for (int i = 0; i < numHorizontalSections; i++) {
+        double sectionX = (sectionWidth / 2.0) + (i * sectionWidth);
+        this.addGravityBody("collider_bed", sectionX, bedY, bedHeight, 0, 10000);
+    }
+    
+    // 3️⃣ COLLIDERS VERTICALES (cabecero y pie de cama)
+    double sideWallThickness = 80.0;
+    int numVerticalSections = 3;
+    double verticalSectionHeight = 80.0;
+    
+    // 🧱 CABECERO (lado izquierdo de la cama)
+    double headboardX = sideWallThickness / 2.0;
+    
+    for (int i = 0; i < numVerticalSections; i++) {
+        double offsetY = bedY - (verticalSectionHeight / 2.0) - (i * verticalSectionHeight);
+        this.addGravityBody("collider_wall", headboardX, offsetY, sideWallThickness, 0, 10000);
+    }
+    
+    // 🧱 PIE DE CAMA (lado derecho de la cama)
+    double footboardX = bedWidthPx - (sideWallThickness / 2.0);
+    
+    for (int i = 0; i < numVerticalSections; i++) {
+        double offsetY = bedY - (verticalSectionHeight / 2.0) - (i * verticalSectionHeight);
+        this.addGravityBody("collider_wall", footboardX, offsetY, sideWallThickness, 0, 10000);
+    }
 
     // 🎯 Armas
     this.addWeaponPresetBulletRandomAsset(AssetType.BULLET);

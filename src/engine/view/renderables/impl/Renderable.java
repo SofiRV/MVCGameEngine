@@ -1,5 +1,7 @@
 package engine.view.renderables.impl;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,7 @@ public class Renderable {
     private long lastFrameSeen;
     private RenderDTO renderData = null;
     private BufferedImage image = null;
+    protected static final boolean SHOW_COLLISION_BOX = true;
 
     public Renderable(RenderDTO renderData, String assetId, ImageCache cache, long currentFrame) {
         if (assetId == null || assetId.isEmpty()) {
@@ -83,6 +86,22 @@ public class Renderable {
 
     public void paint(Graphics2D g, long currentFrame) {
 
+            // ✅ FILTRO: No renderizar colliders invisibles
+        if (this.assetId.startsWith("collider_") || 
+            this.assetId.equals("invisible_collider") ||
+            this.assetId.equals("invisible")){
+            
+            // Solo mostrar caja de debug si está activado
+            if (SHOW_COLLISION_BOX) {
+                // Cambiar color para colliders invisibles
+                Color oldColor = g.getColor();
+                g.setColor(new Color(255, 0, 255, 100)); // Magenta para colliders
+                this.paintCollisionBox(g);
+                g.setColor(oldColor);
+            }
+            return; // ← NO DIBUJAR SPRITE
+        }
+
         if (this.image == null) {
             return;
         }
@@ -101,12 +120,17 @@ public class Renderable {
         final int drawX = (int) (posX - halfW);
         final int drawY = (int) (posY - halfH);
 
+
         g.rotate(Math.toRadians(angleDeg), posX, posY);
 
         g.drawImage(this.image, drawX, drawY, null);
 
         // Restore original (NOT rotated) transform
         g.setTransform(old);
+
+        if (SHOW_COLLISION_BOX) {
+            this.paintCollisionBox(g);
+        }
     }
 
     public void updateImageFromCache(RenderDTO entityInfo) {
@@ -128,5 +152,55 @@ public class Renderable {
         }
 
         return false;
+    }
+
+
+    protected void paintCollisionBox(Graphics2D g) {
+        if (this.renderData == null) {
+            return;
+        }
+        
+        final double posX = this.renderData.posX;
+        final double posY = this.renderData.posY;
+        final double size = this.renderData.size;
+        
+        // Aplicar el mismo factor de margen que en la detección (90%)
+        final double halfSize = (size * 0.5) * 0.9;
+        
+        // Guardar color y stroke originales
+        Color oldColor = g.getColor();
+        BasicStroke oldStroke = (BasicStroke) g.getStroke();
+        
+        // Dibujar rectángulo de colisión (verde semi-transparente)
+        g.setColor(new Color(0, 255, 0, 100)); // Verde con 100/255 alpha
+        g.setStroke(new BasicStroke(2.0f));
+        
+        // Calcular bordes del AABB
+        final int left   = (int) (posX - halfSize);
+        final int top    = (int) (posY - halfSize);
+        final int width  = (int) (halfSize * 2);
+        final int height = (int) (halfSize * 2);
+        
+        // Dibujar rectángulo
+        g.drawRect(left, top, width, height);
+        
+        // Dibujar cruz amarilla en el centro (posX, posY)
+        g.setColor(new Color(255, 255, 0, 200)); // Amarillo
+        g.setStroke(new BasicStroke(1.5f));
+        int crossSize = 8;
+        g.drawLine((int) posX - crossSize, (int) posY, (int) posX + crossSize, (int) posY);
+        g.drawLine((int) posX, (int) posY - crossSize, (int) posX, (int) posY + crossSize);
+        
+        // Dibujar tamaño y posición (opcional, útil para debug)
+        g.setColor(new Color(255, 255, 255, 220)); // Blanco
+        g.drawString(
+            String.format("%.0f", size), 
+            (int) posX + 10, 
+            (int) posY - 10
+        );
+        
+        // Restaurar color y stroke
+        g.setColor(oldColor);
+        g.setStroke(oldStroke);
     }
 }

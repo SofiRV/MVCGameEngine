@@ -26,5 +26,6 @@ public enum AssetType {
     BULLET,
     MINE,
     MISSILE,
-    BACKGROUND, TRAIL
+    BACKGROUND, TRAIL,
+    INVISIBLE_COLLIDER
 }

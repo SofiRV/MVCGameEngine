@@ -2,13 +2,13 @@ package engine.model.impl;
 
 import static java.lang.System.nanoTime;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import engine.actions.ActionType;
 import engine.actions.ActionDTO;
+import engine.actions.ActionType;
 import engine.events.domain.ports.BodyRefDTO;
 import engine.events.domain.ports.BodyToEmitDTO;
 import engine.events.domain.ports.DomainEventType;
@@ -478,6 +478,13 @@ public class Model implements BodyEventProcessor {
         }
     }
 
+    public void playerJump(String playerId) {
+        PlayerBody pBody = (PlayerBody) this.dynamicBodies.get(playerId);
+        if (pBody != null) {
+            pBody.jump(400.0);  // 400 = jump speed (adjustable)
+        }
+    }
+
     public void playerThrustOn(String playerId) {
         PlayerBody pBody = (PlayerBody) this.dynamicBodies.get(playerId);
         if (pBody != null) {
@@ -684,8 +691,7 @@ public class Model implements BodyEventProcessor {
             }
 
             final PhysicsValuesDTO otherPhyValues = otherBody.getPhysicsValues();
-            ññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññ
-            if (!intersectCircles(newPhyValues, otherPhyValues))
+            if (!intersectRectangles(newPhyValues, otherPhyValues))
                 continue;
 
             // Immunity check inmunity for projectiles and their shooters
@@ -900,11 +906,11 @@ public class Model implements BodyEventProcessor {
                         newPhyValues.timeStamp,
                         this.clampX(oldPhyValues.posX), this.clampY(oldPhyValues.posY), newPhyValues.angle,
                         newPhyValues.size,
-                        0D, 0D,
-                        0D, 0D,
+                        0D, 0D,    // speedX y speedY a 0 (detenido)
+                        0D, 0D,    // accX y accY a 0
                         newPhyValues.angularSpeed,
                         newPhyValues.angularAcc,
-                        0D);
+                        oldPhyValues.thrust);  // ✅ PRESERVAR THRUST ORIGINAL
                 body.doMovement(frozen);
                 spatialGridUpsert((AbstractBody) body);
                 break;
@@ -1042,6 +1048,34 @@ public class Model implements BodyEventProcessor {
         final double r = ra + rb;
 
         return (dx * dx + dy * dy) <= (r * r);
+    }
+
+    private boolean intersectRectangles(PhysicsValuesDTO a, PhysicsValuesDTO b) {
+        // AABB (Axis-Aligned Bounding Box) - Detección de colisión rectangular
+        // OJO: asumo size = lado del rectángulo (cuadrado por defecto)
+        // Recortamos a un 90% para evitar colisiones falsas por márgenes
+
+        final double halfSizeA = (a.size * 0.5) * 0.9;
+        final double halfSizeB = (b.size * 0.5) * 0.9;
+
+        // Calcular los bordes de cada rectángulo (AABB)
+        final double aLeft   = a.posX - halfSizeA;
+        final double aRight  = a.posX + halfSizeA;
+        final double aTop    = a.posY - halfSizeA;
+        final double aBottom = a.posY + halfSizeA;
+
+        final double bLeft   = b.posX - halfSizeB;
+        final double bRight  = b.posX + halfSizeB;
+        final double bTop    = b.posY - halfSizeB;
+        final double bBottom = b.posY + halfSizeB;
+
+        // Verificar si NO hay separación (método de ejes separadores)
+        // Si están separados en X o en Y, no hay colisión
+        boolean separatedInX = (aRight < bLeft) || (aLeft > bRight);
+        boolean separatedInY = (aBottom < bTop) || (aTop > bBottom);
+
+        // Colisión solo si NO están separados en ningún eje
+        return !(separatedInX || separatedInY);
     }
 
     // region boolean checks (is***)

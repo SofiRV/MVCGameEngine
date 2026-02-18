@@ -167,6 +167,7 @@ public class PlayerBody extends DynamicBody {
         this.thurstNow(-this.getMaxThrustForce());
     }
 
+
     // 🎯 ROTACIÓN DESACTIVADA PARA JUEGO DE GATOS
     public void rotateLeftOn() {
         // Vacío - El gato no rota
@@ -225,5 +226,19 @@ public class PlayerBody extends DynamicBody {
         double dtSeconds = ((double) dtNanos) / 1_000_000_0000.0d;
 
         return emitter.mustEmitNow(dtSeconds);
+    }
+
+    /**
+    * Make the cat jump (only works when on ground)
+    */
+    public void jump(double jumpSpeed) {
+        PhysicsEngine engine = this.getPhysicsEngine();
+        
+        // Check if the engine supports jumping (CatPhysicsEngine)
+        if (engine instanceof engine.model.physics.implementations.CatPhysicsEngine) {
+            engine.model.physics.implementations.CatPhysicsEngine catEngine = 
+                (engine.model.physics.implementations.CatPhysicsEngine) engine;
+            catEngine.jump(jumpSpeed);
+        }
     }
 }

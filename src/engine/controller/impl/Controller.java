@@ -283,6 +283,14 @@ public class Controller implements WorldManager, DomainEventProcessor {
         this.model.playerFire(playerId);
     }
 
+    public void playerJump(String playerId) {
+        if (this.model == null) {
+            throw new IllegalStateException("Model is not set");
+        }
+        
+        this.model.playerJump(playerId);
+    }
+
     public void playerThrustOn(String playerId) {
         this.model.playerThrustOn(playerId);
     }

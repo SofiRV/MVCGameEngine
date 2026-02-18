@@ -10,7 +10,7 @@ import engine.view.renderables.ports.DynamicRenderDTO;
 
 public class DynamicRenderable extends Renderable {
 
-    private final boolean debugMode = false;
+    private final boolean debugMode = true;  // ✅ Mostrar velocidad/aceleración
 
     // region Constructors
     public DynamicRenderable(DynamicRenderDTO renderInfo, String assetId, ImageCache cache, long currentFrame) {
@@ -26,8 +26,10 @@ public class DynamicRenderable extends Renderable {
     public void paint(Graphics2D g, long currentFrame) {
         DynamicRenderDTO bodyInfo = (DynamicRenderDTO) this.getRenderData();
 
+        // ✅ Dibujar el sprite (esto ya llama a paintCollisionBox si está activado)
         super.paint(g, currentFrame);
 
+        // ✅ Debug info (velocidad, aceleración, vectores)
         if (bodyInfo == null || !this.debugMode) {
             return;
         }

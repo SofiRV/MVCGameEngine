@@ -5,6 +5,7 @@ import engine.model.bodies.impl.DynamicBody;
 import engine.model.bodies.impl.PlayerBody;
 import engine.model.bodies.impl.StaticBody;
 import engine.model.physics.implementations.BasicPhysicsEngine;
+import engine.model.physics.implementations.CatPhysicsEngine;
 import engine.model.physics.ports.PhysicsEngine;
 import engine.model.physics.ports.PhysicsValuesDTO;
 import engine.utils.spatial.core.SpatialGrid;
@@ -32,7 +33,7 @@ public class BodyFactory {
                 break;
 
             case PLAYER:
-                phyEngine = new BasicPhysicsEngine(phyVals);
+                phyEngine = new CatPhysicsEngine(phyVals);
                 body = new PlayerBody(
                         bodyEventProcessor, spatialGrid, phyEngine,
                         maxLifeTime, null);

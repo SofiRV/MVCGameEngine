@@ -37,6 +37,10 @@ public final class ProjectAssets {
         //Planets
         this.catalog.register("bed_01", "bed.png", AssetType.PLANET, AssetIntensity.HIGH);
 
+        // Registrar el collider invisible
+        this.catalog.register("collider_bed", "invisible_collider.png", AssetType.INVISIBLE_COLLIDER, AssetIntensity.LOW);
+        this.catalog.register("collider_wall", "invisible_collider.png", AssetType.INVISIBLE_COLLIDER, AssetIntensity.LOW);
+
 
         // region asteroids (asteroid-***)
         /*this.catalog.register("asteroid_01", "asteroid-01-mini.png", AssetType.ASTEROID, AssetIntensity.HIGH);

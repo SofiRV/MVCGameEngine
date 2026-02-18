@@ -22,7 +22,6 @@ import engine.controller.impl.Controller;
 import engine.controller.ports.EngineState;
 import engine.utils.helpers.DoubleVector;
 import engine.utils.images.Images;
-import engine.view.renderables.impl.Renderable;
 import engine.view.renderables.ports.DynamicRenderDTO;
 import engine.view.renderables.ports.PlayerRenderDTO;
 import engine.view.renderables.ports.RenderDTO;
@@ -517,33 +516,34 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
      */
     private void processKeyPress(int keyCode) {
         switch (keyCode) {
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_W:
-                this.controller.playerThrustOn(this.localPlayerId);
-                break;
-
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_X:
-                this.controller.playerReverseThrust(this.localPlayerId);
-                break;
-
+            // 🐱 MOVIMIENTO HORIZONTAL: A/← = Izquierda, D/→ = Derecha
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                this.controller.playerRotateLeftOn(this.localPlayerId);
+                this.controller.playerReverseThrust(this.localPlayerId);
                 break;
 
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                this.controller.playerRotateRightOn(this.localPlayerId);
+                this.controller.playerThrustOn(this.localPlayerId);
                 break;
 
+            // 🐱 SALTO: W/↑/SPACE = Saltar
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
             case KeyEvent.VK_SPACE:
+                this.controller.playerJump(this.localPlayerId);
+                break;
+
+            // 🔫 DISPARAR: Shift o Ctrl
+            case KeyEvent.VK_SHIFT:
+            case KeyEvent.VK_CONTROL:
                 if (!this.fireKeyDown.get()) {
                     this.fireKeyDown.set(true);
                     this.controller.playerFire(this.localPlayerId);
                 }
                 break;
 
+            // 🔄 CAMBIAR ARMA: 1
             case KeyEvent.VK_1:
                 this.controller.playerSelectNextWeapon(this.localPlayerId);
                 break;
@@ -559,29 +559,47 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
      * Procesamiento de keyRelease (se llama cuando se libera la tecla).
      * Puede no llamarse si el OS consume el evento.
      */
+    /**
+ * Procesamiento de keyRelease (se llama cuando se libera la tecla).
+ */
     private void processKeyRelease(int keyCode) {
         switch (keyCode) {
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_W:
-                this.controller.playerThrustOff(this.localPlayerId);
-                break;
-
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_X:
-                this.controller.playerThrustOff(this.localPlayerId);
-                break;
-
+            // 🐱 MOVIMIENTO IZQUIERDA
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                this.controller.playerRotateOff(this.localPlayerId);
+                // Solo detener thrust si la tecla derecha NO está presionada
+                if (!this.pressedKeys.contains(KeyEvent.VK_RIGHT) && 
+                    !this.pressedKeys.contains(KeyEvent.VK_D)) {
+                    this.controller.playerThrustOff(this.localPlayerId);
+                } else {
+                    // La tecla derecha sigue presionada, mantener thrust positivo
+                    this.controller.playerThrustOn(this.localPlayerId);
+                }
                 break;
 
+            // 🐱 MOVIMIENTO DERECHA
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                this.controller.playerRotateOff(this.localPlayerId);
+                // Solo detener thrust si la tecla izquierda NO está presionada
+                if (!this.pressedKeys.contains(KeyEvent.VK_LEFT) && 
+                    !this.pressedKeys.contains(KeyEvent.VK_A)) {
+                    this.controller.playerThrustOff(this.localPlayerId);
+                } else {
+                    // La tecla izquierda sigue presionada, mantener thrust negativo
+                    this.controller.playerReverseThrust(this.localPlayerId);
+                }
                 break;
 
+            // 🐱 SALTO: No hace nada al soltar (el salto es instantáneo)
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
             case KeyEvent.VK_SPACE:
+                // No action needed - jump is instant
+                break;
+
+            // 🔫 DISPARAR: Resetear flag
+            case KeyEvent.VK_SHIFT:
+            case KeyEvent.VK_CONTROL:
                 this.fireKeyDown.set(false);
                 break;
         }
