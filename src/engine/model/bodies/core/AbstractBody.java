@@ -355,6 +355,12 @@ public abstract class AbstractBody {
     // region Body getters (getBody***())
     public BodyData getBodyData() {
         this.bodyData.setPhysicsValues(this.getPhysicsValues());
+        if (this instanceof engine.model.bodies.impl.PlayerBody) {
+            engine.model.bodies.impl.PlayerBody playerBody = (engine.model.bodies.impl.PlayerBody) this;
+            this.bodyData.setVisible(playerBody.isVisible());
+        } else {
+            this.bodyData.setVisible(true);  // Otros cuerpos siempre visibles
+        }
         return this.bodyData;
     }
 

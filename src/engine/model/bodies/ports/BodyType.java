@@ -5,5 +5,6 @@ public enum BodyType {
     GRAVITY,
     DYNAMIC,
     PLAYER,
-    PROJECTILE
+    PROJECTILE,
+    HAZARD
 }

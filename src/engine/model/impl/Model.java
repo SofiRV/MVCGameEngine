@@ -485,6 +485,13 @@ public class Model implements BodyEventProcessor {
         }
     }
 
+    public void playerTakeDamage(String playerId, double amount) {
+        PlayerBody pBody = (PlayerBody) this.dynamicBodies.get(playerId);
+        if (pBody != null) {
+            pBody.takeDamage(amount);
+        }
+    }
+
     public void playerThrustOn(String playerId) {
         PlayerBody pBody = (PlayerBody) this.dynamicBodies.get(playerId);
         if (pBody != null) {

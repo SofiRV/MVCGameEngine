@@ -18,7 +18,7 @@ public class Renderable {
     private long lastFrameSeen;
     private RenderDTO renderData = null;
     private BufferedImage image = null;
-    protected static final boolean SHOW_COLLISION_BOX = true;
+    protected boolean showCollisionBox = true;
 
     public Renderable(RenderDTO renderData, String assetId, ImageCache cache, long currentFrame) {
         if (assetId == null || assetId.isEmpty()) {
@@ -78,6 +78,10 @@ public class Renderable {
         return this.image;
     }
 
+    public void setShowCollisionBox(boolean show) {
+        this.showCollisionBox = show;
+    }
+
     public void update(RenderDTO renderInfo, long currentFrame) {
         this.updateImageFromCache(this.assetId, (int) renderInfo.size, renderInfo.angle);
         this.lastFrameSeen = currentFrame;
@@ -92,7 +96,7 @@ public class Renderable {
             this.assetId.equals("invisible")){
             
             // Solo mostrar caja de debug si está activado
-            if (SHOW_COLLISION_BOX) {
+            if (this.showCollisionBox) {
                 // Cambiar color para colliders invisibles
                 Color oldColor = g.getColor();
                 g.setColor(new Color(255, 0, 255, 100)); // Magenta para colliders
@@ -128,7 +132,7 @@ public class Renderable {
         // Restore original (NOT rotated) transform
         g.setTransform(old);
 
-        if (SHOW_COLLISION_BOX) {
+        if (this.showCollisionBox) {
             this.paintCollisionBox(g);
         }
     }

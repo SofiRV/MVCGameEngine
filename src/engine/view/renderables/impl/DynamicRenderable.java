@@ -10,7 +10,7 @@ import engine.view.renderables.ports.DynamicRenderDTO;
 
 public class DynamicRenderable extends Renderable {
 
-    private final boolean debugMode = true;  // ✅ Mostrar velocidad/aceleración
+    private final boolean debugMode = false;  // ✅ Mostrar velocidad/aceleración
 
     // region Constructors
     public DynamicRenderable(DynamicRenderDTO renderInfo, String assetId, ImageCache cache, long currentFrame) {
@@ -25,6 +25,11 @@ public class DynamicRenderable extends Renderable {
     @Override
     public void paint(Graphics2D g, long currentFrame) {
         DynamicRenderDTO bodyInfo = (DynamicRenderDTO) this.getRenderData();
+        
+        // 👁️ No dibujar si está invisible (parpadeo durante invulnerabilidad)
+        if (bodyInfo != null && !bodyInfo.isVisible) {
+            return;  // ✅ Saltar completamente el dibujado
+        }
 
         // ✅ Dibujar el sprite (esto ya llama a paintCollisionBox si está activado)
         super.paint(g, currentFrame);

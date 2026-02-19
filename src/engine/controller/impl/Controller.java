@@ -291,6 +291,10 @@ public class Controller implements WorldManager, DomainEventProcessor {
         this.model.playerJump(playerId);
     }
 
+    public void playerTakeDamage(String playerId, double amount) {
+        this.model.playerTakeDamage(playerId, amount);
+    }
+
     public void playerThrustOn(String playerId) {
         this.model.playerThrustOn(playerId);
     }

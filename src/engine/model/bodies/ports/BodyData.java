@@ -8,6 +8,8 @@ public class BodyData {
     public final String entityId;
     public final BodyType type;
     private PhysicsValuesDTO physicsValues;
+
+    public boolean isVisible = true;
     // endregion
 
     // region Constructors
@@ -28,4 +30,11 @@ public class BodyData {
         this.physicsValues = physicsValues;
     }
 
+    public void setVisible(boolean visible) {
+        this.isVisible = visible;
+    }
+
+    public boolean isVisible() {
+        return this.isVisible;
+    }
 }

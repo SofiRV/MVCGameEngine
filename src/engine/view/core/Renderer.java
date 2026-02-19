@@ -154,6 +154,7 @@ public class Renderer extends Canvas implements Runnable {
     private int delayInMillis = 5;
     private long currentFrame = 0;
     private Thread thread;
+    private boolean showCollisionBoxes = false;
 
     private BufferedImage background;
     private Images images;
@@ -240,6 +241,11 @@ public class Renderer extends Canvas implements Runnable {
         Renderable renderableLocalPlayer = this.dynamicRenderables.get(this.view.getLocalPlayerId());
         return renderableLocalPlayer;
     }
+
+    public boolean getShowCollisionBoxes() {
+        return this.showCollisionBoxes;
+    }
+
     // endregion
 
     // region notifiers (notify***)
@@ -255,6 +261,18 @@ public class Renderer extends Canvas implements Runnable {
 
         this.images = images;
         this.imagesCache = new ImageCache(this.getGraphicsConfSafe(), this.images);
+    }
+
+    public void setShowCollisionBoxes(boolean show) {
+        this.showCollisionBoxes = show;
+        
+        for (Map.Entry<String, DynamicRenderable> entry : this.dynamicRenderables.entrySet()) {
+            entry.getValue().setShowCollisionBox(show);
+        }
+
+        for (Map.Entry<String, Renderable> entry : this.staticRenderables.entrySet()) {
+            entry.getValue().setShowCollisionBox(show);
+        }
     }
 
     public void setViewDimension(DoubleVector viewDim) {

@@ -4,10 +4,7 @@ public class PlayerDTO {
    public final String entityId;
 
     public final String playerName;
-    public final double damage;
-    public final double energy;
-    public final double shieldLevel;
-    public final int temperature;
+    public final double health;
     
     public final int activeWeapon;
     public final double prymaryAmmoStatus;
@@ -20,10 +17,7 @@ public class PlayerDTO {
             String entityId,
 
             String playerName,
-            double damage,
-            double energy,
-            double shieldLevel,
-            int temperature,
+            double health,
             int activeWeapon,
             double prymaryAmmoStatus,
             double secondaryAmmoStatus,
@@ -33,10 +27,7 @@ public class PlayerDTO {
 
         this.entityId = entityId;
         this.playerName = playerName;
-        this.damage = damage;
-        this.energy = energy;
-        this.shieldLevel = shieldLevel;
-        this.temperature = temperature;
+        this.health = health;
         this.activeWeapon = activeWeapon;
         this.prymaryAmmoStatus = prymaryAmmoStatus;
         this.secondaryAmmoStatus = secondaryAmmoStatus;

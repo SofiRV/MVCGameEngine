@@ -552,6 +552,19 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
             case KeyEvent.VK_I:
                 debugPlayerInfo();
                 break;
+
+            case KeyEvent.VK_F3:
+                this.renderer.setShowCollisionBoxes(
+                    !this.renderer.getShowCollisionBoxes()
+                );
+                break;
+
+            case KeyEvent.VK_H:  // Presiona 'H' para probar daño
+                if (this.localPlayerId != null) {
+                    System.out.println("🧪 TEST: Applying 10 damage...");
+                    this.controller.playerTakeDamage(this.localPlayerId, 10.0);
+                }
+                break;
         }
     }
 
@@ -625,9 +638,7 @@ private void debugPlayerInfo() {
     if (playerStatus != null) {
         System.out.println("📊 STATUS:");
         System.out.println("   Entity ID: " + playerStatus.entityId);
-        System.out.println("   Damage: " + String.format("%.1f%%", playerStatus.damage * 100));
-        System.out.println("   Energy: " + String.format("%.1f%%", playerStatus.energy * 100));
-        System.out.println("   Shield: " + String.format("%.1f%%", playerStatus.shield * 100));
+        System.out.println("   Health: " + String.format("%.1f", playerStatus.health));
         System.out.println("   Active Weapon: " + playerStatus.activeWeapon);
     } else {
         System.out.println("📊 STATUS: No player data available");

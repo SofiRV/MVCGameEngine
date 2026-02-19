@@ -164,6 +164,11 @@ public class DynamicBody extends AbstractBody implements Runnable {
             if (this.getBodyState() == BodyState.ALIVE) {
                 newPhyValues = this.getPhysicsEngine().calcNewPhysicsValues();
 
+                // 🩷 Actualizar invulnerabilidad si es PlayerBody
+                if (this instanceof PlayerBody) {
+                    ((PlayerBody) this).updateInvulnerability();
+                }
+
                 double r = newPhyValues.size * 0.5;
                 double minX = newPhyValues.posX - r;
                 double maxX = newPhyValues.posX + r;

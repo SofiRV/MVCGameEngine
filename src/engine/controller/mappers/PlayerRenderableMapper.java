@@ -16,10 +16,7 @@ public class PlayerRenderableMapper {
         PlayerRenderDTO renderableData = new PlayerRenderDTO(
                 playerDto.entityId,
                 playerDto.playerName,
-                playerDto.damage,
-                playerDto.energy,
-                playerDto.shieldLevel,
-                playerDto.temperature,
+                playerDto.health,
                 playerDto.activeWeapon,
                 playerDto.prymaryAmmoStatus,
                 playerDto.secondaryAmmoStatus,

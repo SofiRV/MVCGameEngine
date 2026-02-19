@@ -23,7 +23,8 @@ public class DynamicRenderableMapper {
                 phyValues.timeStamp,
                 phyValues.speedX, phyValues.speedY,
                 phyValues.accX, phyValues.accY,
-                phyValues.timeStamp);
+                phyValues.timeStamp,
+                bodyData.isVisible());
 
         return renderablesData;
     }

@@ -20,10 +20,7 @@ public class PlayerHUD extends DataHUD {
         this.addTitle("PLAYER STATUS");
         this.addSkipValue(); // Entity ID
         this.addSkipValue(); // Player name
-        this.addBarItem("Damage", 125, false);
-        this.addBarItem("Energy", 125, false);
-        this.addBarItem("Shield", 125, false);
-        this.addTextItem("Temperature");
+        this.addBarItem("Health", 125, true);  // ✅ Mostrar porcentaje
         this.addTitle("Weapons");
         this.addSkipValue(); // Active weapon
         this.addBarItem("Guns", 125, false);
