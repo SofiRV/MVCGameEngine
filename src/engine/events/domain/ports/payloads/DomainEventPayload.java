@@ -5,5 +5,5 @@ package engine.events.domain.ports.payloads;
  * Add new permitted payloads as you grow.
  */
 public sealed interface DomainEventPayload permits
-        EmitPayloadDTO, NoPayload, CollisionPayload {
+        EmitPayloadDTO, NoPayload, CollisionPayload, DamagePayload {
 }

@@ -13,11 +13,13 @@ import engine.events.domain.ports.BodyRefDTO;
 import engine.events.domain.ports.BodyToEmitDTO;
 import engine.events.domain.ports.DomainEventType;
 import engine.events.domain.ports.eventtype.CollisionEvent;
+import engine.events.domain.ports.eventtype.DamageEvent;
 import engine.events.domain.ports.eventtype.DomainEvent;
 import engine.events.domain.ports.eventtype.EmitEvent;
 import engine.events.domain.ports.eventtype.LifeOver;
 import engine.events.domain.ports.eventtype.LimitEvent;
 import engine.events.domain.ports.payloads.CollisionPayload;
+import engine.events.domain.ports.payloads.DamagePayload;
 import engine.events.domain.ports.payloads.EmitPayloadDTO;
 import engine.model.bodies.core.AbstractBody;
 import engine.model.bodies.impl.DynamicBody;
@@ -709,7 +711,20 @@ public class Model implements BodyEventProcessor {
             CollisionEvent collisionEvent = new CollisionEvent(
                     checkBody.getBodyRef(), otherBody.getBodyRef(), payload);
             domainEvents.add(collisionEvent);
+            if (!haveInmunity &&
+                (checkBody.getBodyType() == BodyType.PLAYER || otherBody.getBodyType() == BodyType.PLAYER)) {
+
+                PlayerBody damagedPlayer = checkBody.getBodyType() == BodyType.PLAYER ? 
+                                            (PlayerBody) checkBody : 
+                                            (PlayerBody) otherBody;
+
+                DamagePayload dmgPayload = new DamagePayload(10.0); // daño base
+                DamageEvent dmgEvent = new DamageEvent(damagedPlayer.getBodyRef(), dmgPayload);
+
+                domainEvents.add(dmgEvent);
+            }
         }
+        
     }
 
     private boolean checkCollisionCandidates(AbstractBody checkBody, ArrayList<String> candidates) {
@@ -936,6 +951,14 @@ public class Model implements BodyEventProcessor {
                     break;
 
                 this.spawnBody(body, payload.bodyConfig, newPhyValues);
+                break;
+
+            case TAKE_DAMAGE:
+                if (body instanceof PlayerBody pBody) {
+                    if (action.relatedEvent instanceof DamageEvent dmgEvent) {
+                        pBody.takeDamage(dmgEvent.getPayload().getAmount());
+                    }
+                }
                 break;
 
             case DIE:

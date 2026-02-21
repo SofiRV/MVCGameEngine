@@ -13,4 +13,5 @@ public enum ActionType {
     MOVE_REBOUND_IN_SOUTH,
     SPAWN_BODY,
     SPAWN_PROJECTILE, MOVE_TO_CENTER,
+    TAKE_DAMAGE
 }

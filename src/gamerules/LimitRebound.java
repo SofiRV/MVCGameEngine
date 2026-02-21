@@ -86,6 +86,9 @@ public class LimitRebound implements ActionsGenerator {
                 // No action for collision events in this generator
 
             }
+            default -> {
+                // No action for unknown DomainEvent types
+            }
         }
     }
 }

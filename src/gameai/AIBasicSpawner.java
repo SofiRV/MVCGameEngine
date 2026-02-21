@@ -1,8 +1,7 @@
-package gameai;
+/*package gameai;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import engine.controller.ports.WorldManager;
 import engine.generators.AbstractIAGenerator;
 import engine.world.ports.DefItem;
@@ -11,23 +10,19 @@ import engine.world.ports.WorldDefinition;
 
 public class AIBasicSpawner extends AbstractIAGenerator {
 
-    // region Fields
     private final ArrayList<DefItem> asteroidDefs;
     private final Random rnd = new Random();
-    // endregion
 
-    // *** CONSTRUCTORS ***
+    // CONTROL PARA RATONES FIJOS
+    private boolean fixedMouseSpawned = false;
 
     public AIBasicSpawner(
             WorldManager worldEvolver, WorldDefinition worldDefinition,
             int maxCreationDelay) {
 
         super(worldEvolver, worldDefinition, maxCreationDelay);
-
         this.asteroidDefs = this.worldDefinition.asteroids;
     }
-
-    // *** PROTECTED (alphabetical order) ***
 
     @Override
     protected String getThreadName() {
@@ -36,34 +31,29 @@ public class AIBasicSpawner extends AbstractIAGenerator {
 
     @Override
     protected void onActivate() {
-        // At this place you can initialize any resource
-        // needed for your AI spawner
-        // ... or do nothing.
+        // Puedes inicializar recursos si quieres
     }
 
     @Override
-    protected void onTick() {
-        // Select a random asteroid definition
-        DefItem defItem = this.asteroidDefs.get(
-                this.rnd.nextInt(this.asteroidDefs.size()));
+protected void onTick() {
+    if (!fixedMouseSpawned && !asteroidDefs.isEmpty()) {
+        DefItem defItem = asteroidDefs.get(0); // mouse_01
 
-        this.addDynamic(defItem);
-    }
+        DefItemDTO dto = new DefItemDTO(
+            defItem.getAssetId(),
+            defItem.getSize(),
+            defItem.getAngle(),
+            900,
+            500,
+            defItem.getDensity(),
+            -100, // velocidad hacia la izquierda
+            0,
+            0,
+            0
+        );
 
-    // *** PRIVATE (alphabetic order) ***
-
-    private void addDynamic(DefItem defItem) {
-        // If defItem is a prototype, we need to convert it to a DTO
-        // to resolve range-based properties ...
-        DefItemDTO bodyDef = this.defItemToDTO(defItem);
-
-        // At this place you can modify position,
-        // speed, thrust, etc. as needed
-        // or you can accept definition values
-        // as they came form world definition.
-        // ... or do nothing.
-
-        // Injecting dynamic body into the game
-        this.addDynamicIntoTheGame(bodyDef);
+        this.addDynamicIntoTheGame(dto);
+        fixedMouseSpawned = true; // ahora no se genera de nuevo
     }
 }
+}*/

@@ -4,9 +4,10 @@ import engine.model.impl.Model;
 import engine.utils.helpers.DoubleVector;
 import engine.utils.threading.ThreadPoolManager;
 import engine.view.core.View;
-import engine.world.ports.WorldDefinition;
 import engine.world.ports.WorldDefinitionProvider;
-import gameworld.ProjectAssets;
+import gameai.MouseSpawner;
+import gameworld.CatRandomWorldDefinitionProvider;
+import gameworld.ProjectAssets; // <-- importamos nuestro spawner específico
 
 public class Main {
 
@@ -27,8 +28,8 @@ public class Main {
 
         ActionsGenerator gameRules = new gamerules.DeadInLimitsPlayerImmunity();
 
-        // 🎯 CAMBIO AQUÍ - Usar CatRandomWorldDefinitionProvider
-        WorldDefinitionProvider worldProv = new gameworld.CatRandomWorldDefinitionProvider(
+        // Usamos nuestro WorldDefinitionProvider
+        WorldDefinitionProvider worldProv = new CatRandomWorldDefinitionProvider(
                 worldDimension, projectAssets);
 
         Controller controller = new Controller(
@@ -38,12 +39,14 @@ public class Main {
 
         controller.activate();
 
-        WorldDefinition worldDef = worldProv.provide();
+        // Obtenemos la definición del mundo
+        var worldDef = worldProv.provide();
 
+        // Creamos el nivel
         new gamelevel.LevelBasic(controller, worldDef);
 
-        // ⚠️ SPAWNER DESACTIVADO (sin ratones por ahora)
-        // int maxAsteroidCreationDelay = 200;
-        // new gameai.AIBasicSpawner(controller, worldDef, maxAsteroidCreationDelay).activate();
+        // 🐭 SPAWNER DE RATONES
+        int maxCreationDelay = 200; // milisegundos entre ticks
+        new MouseSpawner(controller, worldDef, maxCreationDelay).activate();
     }
 }

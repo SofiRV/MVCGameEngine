@@ -68,6 +68,9 @@ public class InLimitsGoToCenter implements ActionsGenerator {
 
                 // No action for collision events in this generator
             }
+            default -> {
+                // No action for unhandled event types
+            }
         }
     }
 }

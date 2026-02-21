@@ -14,5 +14,6 @@ public final class EmitEvent extends AbstractDomainEvent<EmitPayloadDTO> impleme
 
         super(eventType, primaryBodyRef, null, payload);
     }
+    
 
 }

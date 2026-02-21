@@ -63,5 +63,24 @@ protected void define() {
     // 🎯 Armas
     this.addWeaponPresetBulletRandomAsset(AssetType.BULLET);
     this.addWeaponPresetMissileLauncherRandomAsset(AssetType.MISSILE);
-}
+
+    //Ratones
+    this.addAsteroidPrototypeRandomAsset(
+        1,                  // número de ratones a generar
+        AssetType.ASTEROID, // tipo (tus ratones)
+        100,                // density (puedes dejarlo así)
+        0,                  // minAngle
+        0,                  // maxAngle (0 para que no rote)
+        80,                 // minSize
+        80,                 // maxSize (igual al minSize para tamaño fijo)
+        900,                // posMinX
+        900,                // posMaxX (igual al minX para fijar)
+        500,                // posMinY
+        500,                // posMaxY (igual al minY)
+        0,                  // speedMin
+        0,                  // speedMax (sin movimiento inicial)
+        0,                  // angularSpeedMin
+        0                   // angularSpeedMax (sin rotación)
+    );
+    }
 }

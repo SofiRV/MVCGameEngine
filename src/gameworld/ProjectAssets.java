@@ -41,6 +41,10 @@ public final class ProjectAssets {
         this.catalog.register("collider_bed", "invisible_collider.png", AssetType.INVISIBLE_COLLIDER, AssetIntensity.LOW);
         this.catalog.register("collider_wall", "invisible_collider.png", AssetType.INVISIBLE_COLLIDER, AssetIntensity.LOW);
 
+        this.catalog.register("mouse_01", "babero_mouse_flusflus.png", AssetType.ASTEROID, AssetIntensity.HIGH);
+        this.catalog.register("mouse_02", "babero_mouse_flyswatter.png", AssetType.ASTEROID, AssetIntensity.HIGH);
+        this.catalog.register("mouse_03", "naked_mouse_flusflus.png", AssetType.ASTEROID, AssetIntensity.HIGH);
+        this.catalog.register("mouse_04", "naked_mouse_flyswatter.png", AssetType.ASTEROID, AssetIntensity.HIGH);
 
         // region asteroids (asteroid-***)
         /*this.catalog.register("asteroid_01", "asteroid-01-mini.png", AssetType.ASTEROID, AssetIntensity.HIGH);
