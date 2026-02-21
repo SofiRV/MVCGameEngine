@@ -403,6 +403,7 @@ public class Controller implements WorldManager, DomainEventProcessor {
 
     @Override
     public void notifyPlayerIsDead(String entityId) {
+        System.out.println("CONTROLLER: notifyPlayerIsDead llamado con " + entityId);
         this.view.notifyPlayerIsDead(entityId);
     }
 

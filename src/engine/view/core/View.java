@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import engine.assets.core.AssetCatalog;
@@ -136,6 +137,7 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
         this.images = new Images("");
         this.controlPanel = new ControlPanel(this);
         this.renderer = new Renderer(this);
+        this.renderer.setShowCollisionBoxes(false);
         this.createFrame();
     }
 
@@ -150,6 +152,8 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
     // *** PUBLIC ***
 
     public void activate() {
+        // Después de crear el renderer
+        
         if (this.viewDimension == null) {
             throw new IllegalArgumentException("View dimensions not setted");
         }
@@ -168,6 +172,7 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
 
         this.renderer.setViewDimension(this.viewDimension);
         this.renderer.activate();
+        this.renderer.setShowCollisionBoxes(false);
         this.pack();
         System.out.println("View: Activated");
     }
@@ -242,7 +247,16 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
     }
 
     public void notifyPlayerIsDead(String entityId) {
+        System.out.println("VIEW: notifyPlayerIsDead llamado con " + entityId);
         this.setLocalPlayer(null);
+        this.gameOver();
+    }
+
+    public void gameOver() {
+        System.out.println("VIEW: GAME OVER llamado");
+        JOptionPane.showMessageDialog(this, "GAME OVER - El gato murió", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+    // Puedes cerrar el juego, reiniciar, o mostrar menú:
+    System.exit(0); // O: this.setVisible(false); para solo ocultar ventana
     }
     // endregion
 
@@ -553,11 +567,11 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
                 debugPlayerInfo();
                 break;
 
-            case KeyEvent.VK_F3:
+            /*case KeyEvent.VK_F3:
                 this.renderer.setShowCollisionBoxes(
                     !this.renderer.getShowCollisionBoxes()
                 );
-                break;
+                break;*/
 
             case KeyEvent.VK_H:  // Presiona 'H' para probar daño
                 if (this.localPlayerId != null) {

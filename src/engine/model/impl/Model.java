@@ -569,6 +569,7 @@ public class Model implements BodyEventProcessor {
 
         switch (body.getBodyType()) {
             case PLAYER:
+                 System.out.println("MODEL: El player murió, notificando GAME OVER.");
                 this.domainEventProcessor.notifyPlayerIsDead(body.getBodyId());
                 this.spatialGrid.remove(body.getBodyId());
                 this.dynamicBodies.remove(body.getBodyId());
@@ -954,12 +955,16 @@ public class Model implements BodyEventProcessor {
                 break;
 
             case TAKE_DAMAGE:
-                if (body instanceof PlayerBody pBody) {
-                    if (action.relatedEvent instanceof DamageEvent dmgEvent) {
-                        pBody.takeDamage(dmgEvent.getPayload().getAmount());
-                    }
-                }
-                break;
+    if (body instanceof PlayerBody pBody) {
+        if (action.relatedEvent instanceof DamageEvent dmgEvent) {
+            pBody.takeDamage(dmgEvent.getPayload().getAmount());
+            if (pBody.isDead()) {
+                System.out.println("MODEL: El player murió, llamando a removeBody()...");
+                this.removeBody(pBody); // Esto activa notifyPlayerIsDead y el Game Over
+            }
+        }
+    }
+    break;
 
             case DIE:
                 this.removeBody(body);

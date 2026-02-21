@@ -18,7 +18,7 @@ public class Renderable {
     private long lastFrameSeen;
     private RenderDTO renderData = null;
     private BufferedImage image = null;
-    protected boolean showCollisionBox = true;
+    protected boolean showCollisionBox = false;
 
     public Renderable(RenderDTO renderData, String assetId, ImageCache cache, long currentFrame) {
         if (assetId == null || assetId.isEmpty()) {
