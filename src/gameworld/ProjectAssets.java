@@ -17,8 +17,14 @@ public final class ProjectAssets {
         this.catalog.register("room_01", "room_scenario_redimension.png", AssetType.BACKGROUND, AssetIntensity.LOW);
         
         //Cats
-        this.catalog.register("cat_01", "base_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        //this.catalog.register("cat_01", "base_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
         this.catalog.register("cat_02", "orange_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_03", "black_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_04", "calico_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_05", "orange_white_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_06", "red_point_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+        this.catalog.register("cat_07", "white_cat.png", AssetType.SPACESHIP, AssetIntensity.HIGH);
+
 
         //Bullets
         this.catalog.register("bullet_01", "bullet-01.png", AssetType.BULLET, AssetIntensity.LOW);

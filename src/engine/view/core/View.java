@@ -137,7 +137,6 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
         this.images = new Images("");
         this.controlPanel = new ControlPanel(this);
         this.renderer = new Renderer(this);
-        this.renderer.setShowCollisionBoxes(false);
         this.createFrame();
     }
 
@@ -172,7 +171,6 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
 
         this.renderer.setViewDimension(this.viewDimension);
         this.renderer.activate();
-        this.renderer.setShowCollisionBoxes(false);
         this.pack();
         System.out.println("View: Activated");
     }
@@ -567,11 +565,11 @@ public class View extends JFrame implements KeyListener, WindowFocusListener {
                 debugPlayerInfo();
                 break;
 
-            /*case KeyEvent.VK_F3:
+            case KeyEvent.VK_F3:
                 this.renderer.setShowCollisionBoxes(
                     !this.renderer.getShowCollisionBoxes()
                 );
-                break;*/
+                break;
 
             case KeyEvent.VK_H:  // Presiona 'H' para probar daño
                 if (this.localPlayerId != null) {

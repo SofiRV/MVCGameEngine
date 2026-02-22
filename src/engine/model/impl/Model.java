@@ -483,7 +483,7 @@ public class Model implements BodyEventProcessor {
     public void playerJump(String playerId) {
         PlayerBody pBody = (PlayerBody) this.dynamicBodies.get(playerId);
         if (pBody != null) {
-            pBody.jump(400.0);  // 400 = jump speed (adjustable)
+            pBody.jump(700.0);  // 400 = jump speed (adjustable)
         }
     }
 

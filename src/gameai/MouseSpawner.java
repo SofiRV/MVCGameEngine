@@ -14,7 +14,7 @@ public class MouseSpawner extends AbstractIAGenerator {
     private final ArrayList<DefItem> mousePrototypes;
     private final ArrayList<DefItemDTO> activeMice = new ArrayList<>();
 
-    private final double spawnX = 900;
+    private final double spawnX = 1030;
     private final double spawnY = 500;
 
     private final int spawnDelayTicks = 20; // ticks entre ratones

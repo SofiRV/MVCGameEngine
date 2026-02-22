@@ -19,7 +19,7 @@ protected void define() {
     this.setBackgroundStatic("room_01");
 
     // 🐱 Gato jugador
-    this.addSpaceship("cat_02", 700, 500, 150, 0, 500);
+    this.addSpaceshipRandomAsset(1, AssetType.SPACESHIP, 0, 500, 150, 300, 500);
 
     // 🛏️ CAMA - Sistema Completo: Colliders Horizontales + Colliders Verticales
     double bedHeight = 155.0;      // Alto de la cama
@@ -41,7 +41,7 @@ protected void define() {
     
     // 3️⃣ COLLIDERS VERTICALES (cabecero y pie de cama)
     double sideWallThickness = 80.0;
-    int numVerticalSections = 3;
+    int numVerticalSections = 5;
     double verticalSectionHeight = 80.0;
     
     // 🧱 CABECERO (lado izquierdo de la cama)
